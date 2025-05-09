@@ -10,4 +10,8 @@ function printPath(path) {
 }
 
 let path = knightMoves([0, 0], [3, 3]);
+console.log("Path from [0,0] to [3,3]");
+printPath(path);
+path = knightMoves([0, 0], [7, 7]);
+console.log("Path from [0,0] to [7,7]");
 printPath(path);
