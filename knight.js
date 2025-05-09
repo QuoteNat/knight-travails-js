@@ -9,9 +9,7 @@ class Vector extends Array {
    * @returns The sum of the two vectors.
    */
   add(vector) {
-    return this.map((left, index) => 
-      left + vector[index]
-  );
+    return this.map((left, index) => left + vector[index]);
   }
 }
 
@@ -43,6 +41,14 @@ class MoveNode {
   }
 }
 
+function compareArrays(array1, array2) {
+  if (array1.length != array2.length) return false;
+  for (const index in array1) {
+    if (array1[index] !== array2[index]) return false;
+  }
+  return true;
+}
+
 export function knightMoves(start, end) {
   if (!checkCoordinateBounds(start))
     throw new Error("start must be in range ([0-7],[0-7]");
@@ -51,9 +57,9 @@ export function knightMoves(start, end) {
 
   // Using references, we can work back from the result of a breadth first search
   let queue = [new MoveNode(null, Vector.from(start))];
-  let visited = new Set();
-  visited.add(start);
-  while (queue.length > 0 && queue[0].current !== Vector.from(end)) {
+  let visited = [];
+  visited.push(start);
+  while (queue.length > 0 && !compareArrays(queue[0].current, end)) {
     let front = queue[0].current;
     console.log(front);
     console.log(visited.keys());
@@ -61,12 +67,21 @@ export function knightMoves(start, end) {
     for (const moveVector of knightMoveVectors) {
       let move = front.add(moveVector);
       // if in bounds and not already visited
-      if (!visited.has(move) && checkCoordinateBounds(move)) {
-        queue.push(new MoveNode(front, move));
-        visited.add(move);
+      if (checkCoordinateBounds(move)) {
+        let unvisited = true;
+        for (const coord of visited) {
+          if (compareArrays(coord, move)) {
+            unvisited = false;
+            break;
+          }
+        }
+        if (unvisited) {
+          queue.push(new MoveNode(front, move));
+          visited.push(move);
+        }
       }
     }
     queue.shift();
   }
-  console.log(queue[0]);
+  console.log(queue);
 }
