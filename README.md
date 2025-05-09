@@ -1,0 +1,1 @@
+A pathfinding algorithm for finding the shortest route for a chess knight between two coordinates on a chessboard implemented in JS. `index.js` contains examples while `knight.js` contains the implementation.
