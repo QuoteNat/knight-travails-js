@@ -15,19 +15,19 @@ class Vector extends Array {
   }
 }
 
+function checkCoordinateBounds(vector2) {
+  for (const value in vector2) {
+    if (value > 7 || value < 0) return false;
+  }
+  return true;
+}
+
 export function knightPathFind(start, end) {
-  start.map((coordinate) => {
-    if (coordinate > 7 || coordinate < 0)
-      throw new Error(
-        "Path finding coordinates can not start outside of the bounds of a standard chessboard ([0-7],[0-7])"
-      );
-  });
-  end.map((coordinate) => {
-    if (coordinate > 7 || coordinate < 0)
-      throw new Error(
-        "Path finding coordinates can not end outside of the bounds of a standard chessboard ([0-7],[0-7])"
-      );
-  });
+  if (!checkCoordinateBounds(start))
+    throw new Error("start must be in range ([0-7],[0-7]");
+  if (!checkCoordinateBounds(end))
+    throw new Error("end must be in range ([0-7],[0-7]");
+
   let queue = [Vector.from(start)];
   while (queue.length > 0 && queue[0] !== end) {
     let front = queue[0];
