@@ -49,6 +49,12 @@ function compareArrays(array1, array2) {
   return true;
 }
 
+/**
+ * Returns the shortest path for a chess knight to go from start to end on a standard chess board
+ * @param {array} start A 2d coordinate in the form of an array (ex. [1, 3])
+ * @param {array} end A 2d coordinate in the form of an array (ex. [1, 3])
+ * @returns An array cointaining the path of the knight form start to end
+ */
 export function knightMoves(start, end) {
   if (!checkCoordinateBounds(start))
     throw new Error("start must be in range ([0-7],[0-7]");
@@ -61,8 +67,6 @@ export function knightMoves(start, end) {
   visited.push(start);
   while (queue.length > 0 && !compareArrays(queue[0].current, end)) {
     let front = queue[0];
-    console.log(front);
-    console.log(visited.keys());
 
     for (const moveVector of knightMoveVectors) {
       let move = front.current.add(moveVector);
@@ -83,6 +87,13 @@ export function knightMoves(start, end) {
     }
     queue.shift();
   }
-  console.log(queue);
   let backwardsPath = [];
+  let currentNode = queue[0];
+  while (currentNode.previous != null) {
+    backwardsPath.push(currentNode.current);
+    currentNode = currentNode.previous;
+  }
+  backwardsPath.push(currentNode.current);
+  backwardsPath.reverse();
+  return backwardsPath;
 }
