@@ -60,12 +60,12 @@ export function knightMoves(start, end) {
   let visited = [];
   visited.push(start);
   while (queue.length > 0 && !compareArrays(queue[0].current, end)) {
-    let front = queue[0].current;
+    let front = queue[0];
     console.log(front);
     console.log(visited.keys());
 
     for (const moveVector of knightMoveVectors) {
-      let move = front.add(moveVector);
+      let move = front.current.add(moveVector);
       // if in bounds and not already visited
       if (checkCoordinateBounds(move)) {
         let unvisited = true;
@@ -84,4 +84,5 @@ export function knightMoves(start, end) {
     queue.shift();
   }
   console.log(queue);
+  let backwardsPath = [];
 }
